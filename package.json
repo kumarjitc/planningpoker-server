@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec babel-node src/index.js",
+    "start": "nodemon --experimental-modules --es-module-specifier-resolution=node src/index.js --reset-cache",
     "start:dev": "nodemon --experimental-modules --es-module-specifier-resolution=node src/index.js --reset-cache"
   },
   "repository": {
@@ -20,7 +20,8 @@
   "homepage": "https://github.com/kumarjitc/planningpoker-server#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nedb": "^1.8.0"
   },
   "type": "module"
 }
