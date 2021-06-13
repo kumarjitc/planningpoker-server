@@ -1,7 +1,7 @@
 import DB from 'nedb';
 
 const projectStore = new DB({
-    filename: './db/projects.db',
+    filename: './_db/projects.db',
     autoload: true
 });
 

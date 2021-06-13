@@ -11,23 +11,25 @@ routeListener.use((req, res, next) => {
 
 let projects = new Projects();
 
-routeListener.get('/:type/', (req, res) => {
+routeListener.get('/:type/', async (req, res) => {
     const type = req.params.type;
 
     switch (type) {
         case PROJECT:
-            res.send('OKAY');
-            //res.send(Projects.getAll());
+            res.send(await projects.getAll());
             break;
         default:
             res.send('Type Not Supported Yet');
     }
 });
 
-routeListener.get('/:type/id/:id', (req, res) => {
+routeListener.get('/:type/id/:id', async (req, res) => {
+    const type = req.params.type;
+    const id = req.params.id;
+
     switch (type) {
         case PROJECT:
-            res.send(Projects.getAll());
+            res.send(await projects.getById(id));
             break;
         default:
             res.send('Type Not Supported Yet');
@@ -47,20 +49,24 @@ routeListener.post('/:type/', async (req, res) => {
 
 routeListener.put('/:type/id/:id', async (req, res) => {
     const type = req.params.type;
+    const id = req.params.id;
 
     switch (type) {
         case PROJECT:
-            res.send(await projects.update(req.body, req.params.id));
+            res.send(await projects.update(req.body, id));
             break;
         default:
             res.send('Type Not Supported Yet');
     }
 });
 
-routeListener.delete('/:type/id/:id', (req, res) => {
+routeListener.delete('/:type/id/:id', async (req, res) => {
+    const type = req.params.type;
+    const id = req.params.id;
+
     switch (type) {
         case PROJECT:
-            res.send(Projects.getAll());
+            res.send(await projects.deleteById(id));
             break;
         default:
             res.send('Type Not Supported Yet');
