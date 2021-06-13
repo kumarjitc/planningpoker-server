@@ -1,0 +1,26 @@
+{
+  "name": "planningpoker-server",
+  "version": "1.0.0",
+  "description": "Planning Poker API Server",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node src/index.js",
+    "start:dev": "nodemon --experimental-modules --es-module-specifier-resolution=node src/index.js --reset-cache"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kumarjitc/planningpoker-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kumarjitc/planningpoker-server/issues"
+  },
+  "homepage": "https://github.com/kumarjitc/planningpoker-server#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "type": "module"
+}
