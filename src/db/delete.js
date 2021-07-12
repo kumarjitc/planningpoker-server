@@ -24,15 +24,8 @@ export class Delete {
                 }
 
                 if (numRemoved === 0) {
-                    /* esolve(new ResponseFormat.Formatter()
-                        .addErrorMessage(ResponseFormat.ERROR_NO_RECORD_FOUND)
-                        .build()
-                    ); */
+                    throw new Error('No Records Deleted');
                 } else {
-                    /* resolve(new ResponseFormat.Formatter()
-                        .addSuccessMessage(`${numRemoved}${ResponseFormat.SUCCESS_RECORD_UPDATED}`)
-                        .build()
-                    ); */
                     resolve(`${numRemoved} Records Deletec`);
                 }
             });

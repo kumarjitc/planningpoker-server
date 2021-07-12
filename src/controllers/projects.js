@@ -5,32 +5,25 @@ import {
     Select,
     Delete
 } from '../db/index';
-import { projectStore } from '../db/load';
 
 export class Projects {
-    getAll() {
-        return {
-            value: 'ALL PROJECTS'
-        };
-    }
-
-    create(document) {
+    async create(document) {
         return new Insert(ProjectStore).addDocument(document).execute();
     }
 
-    getById(id) {
-        return new Select(projectStore).searchById(id).execute();
+    async getById(id) {
+        return new Select(ProjectStore).searchById(id).execute();
     }
 
     getAll() {
-        return new Select(projectStore).execute();
+        return new Select(ProjectStore).execute();
     }
 
-    update(document, id) {
+    async update(document, id) {
         return new Update(ProjectStore).updateById(id).addDocument(document).execute();
     }
 
-    deleteById(id) {
+    async deleteById(id) {
         return new Delete(ProjectStore).deleteById(id).execute();
     }
 }

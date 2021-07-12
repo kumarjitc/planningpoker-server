@@ -29,7 +29,7 @@ export class Update {
         return this;
     }
 
-    execute() {
+    async execute() {
         return new Promise((resolve, reject) => {
             this.db.update(this.condition, this.doc, { multi: true }, (error, numReplaced) => {
                 if (error) {
@@ -37,15 +37,8 @@ export class Update {
                 }
 
                 if (numReplaced === 0) {
-                    /* resolve(new ResponseFormat.Formatter()
-                        .addErrorMessage(ResponseFormat.ERROR_NO_RECORD_FOUND)
-                        .build()
-                    ); */
+                    throw new Error('No Records Updated');
                 } else {
-                    /* resolve(new ResponseFormat.Formatter()
-                        .addSuccessMessage(`${numReplaced}${ResponseFormat.SUCCESS_RECORD_UPDATED}`)
-                        .build()
-                    ); */
                     resolve(`${numReplaced} Records Updated`);
                 }
             });

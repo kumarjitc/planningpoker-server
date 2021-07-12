@@ -19,13 +19,13 @@ export class Select {
     }
 
     execute() {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _reject) => {
             this.db.find(this.condition, (error, docs) => {
                 if (error) {
                     console.log(error);
                 }
 
-                return resolve(this.condition.hasOwnProperty(ID) ? docs[0] : docs);
+                resolve(this.condition.hasOwnProperty(ID) ? docs[0] : docs);
             });
         });
     }
