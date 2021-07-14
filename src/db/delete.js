@@ -28,7 +28,7 @@ export class Delete {
                 }
 
                 if (!numRemoved) {
-                    reject(this.error.with(`No Records Removed For - ${this.condition[ID]}`));
+                    reject(this.error.with('No Records Removed'));
                 } else {
                     resolve(`${numRemoved} Records Deleted`);
                 }
