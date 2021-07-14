@@ -2,6 +2,7 @@ export class Insert {
     constructor(db) {
         this.db = db;
         this.doc = {};
+        this.error = new DBError().forOperation('CREATE');
     }
 
     addDocument(doc) {
@@ -20,7 +21,7 @@ export class Insert {
         return new Promise((resolve, reject) => {
             this.db.insert(this.doc, (error, inserted) => {
                 if (error) {
-                    console.log('TEST', error);
+                    reject(this.error.with(error));
                 }
                 resolve(inserted);
             });

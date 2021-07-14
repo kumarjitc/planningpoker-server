@@ -1,11 +1,15 @@
+import { ID } from "./constants";
+import { DBError } from "./error";
+
 export class Delete {
     constructor(db) {
         this.db = db;
         this.condition = {};
+        this.error = new DBError().forOperation('DELETE');
     }
 
     deleteById(id) {
-        this.condition['_id'] = id;
+        this.condition[ID] = id;
 
         return this;
     }
@@ -18,15 +22,15 @@ export class Delete {
 
     execute() {
         return new Promise((resolve, reject) => {
-            this.db.remove(this.condition, { multi: true }, function (error, numRemoved) {
+            this.db.remove(this.condition, { multi: true }, (error, numRemoved) => {
                 if (error) {
-                    reject(error);
+                    reject(this.error.with(error));
                 }
 
-                if (numRemoved === 0) {
-                    throw new Error('No Records Deleted');
+                if (!numRemoved) {
+                    reject(this.error.with(`No Records Removed For - ${this.condition[ID]}`));
                 } else {
-                    resolve(`${numRemoved} Records Deletec`);
+                    resolve(`${numRemoved} Records Deleted`);
                 }
             });
         });

@@ -1,8 +1,12 @@
+import { ID } from "./constants";
+import { DBError } from "./error";
+
 export class Update {
     constructor(db) {
         this.db = db;
         this.doc = {};
         this.condition = {};
+        this.error = new DBError().forOperation('UPDATE');
     }
 
     addDocument(doc) {
@@ -24,7 +28,7 @@ export class Update {
     }
 
     updateById(id) {
-        this.condition['_id'] = id;
+        this.condition[ID] = id;
 
         return this;
     }
@@ -33,11 +37,11 @@ export class Update {
         return new Promise((resolve, reject) => {
             this.db.update(this.condition, this.doc, { multi: true }, (error, numReplaced) => {
                 if (error) {
-                    console.log(error);
+                    reject(this.error.with(error));
                 }
 
                 if (numReplaced === 0) {
-                    throw new Error('No Records Updated');
+                    reject(this.error.with('No Records Updated'));
                 } else {
                     resolve(`${numReplaced} Records Updated`);
                 }

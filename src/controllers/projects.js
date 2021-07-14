@@ -15,7 +15,7 @@ export class Projects {
         return new Select(ProjectStore).searchById(id).execute();
     }
 
-    getAll() {
+    async getAll() {
         return new Select(ProjectStore).execute();
     }
 
