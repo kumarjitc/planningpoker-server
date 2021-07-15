@@ -1,7 +1,7 @@
 import Express from 'express';
 import cors from 'cors';
 
-import { Setup } from './routes/index';
+import { Projects, Sprints } from './routes/index';
 import { errorHandler } from './routes/error';
 
 const app = Express();
@@ -11,9 +11,11 @@ app.use(Express.raw());
 
 app.use(cors());
 
-app.use('/setup', Setup);
+app.use('/setup/project', Projects);
+app.use('/setup/sprint', Sprints);
 
 app.use((error, _req, res, _next) => {
+    console.log(error);
     errorHandler(error, res);
 });
 

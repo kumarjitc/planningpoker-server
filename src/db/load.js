@@ -1,15 +1,37 @@
 import DB from 'nedb';
 
-const ProjectStore = new DB({
+const ProjectsStore = new DB({
     filename: './_db/projects.db',
     autoload: true
 });
 
-ProjectStore.ensureIndex({
+ProjectsStore.ensureIndex({
+    fieldName: 'name',
+    unique: true
+});
+
+const SprintsStore = new DB({
+    filename: './_db/sprints.db',
+    autoload: true
+});
+
+SprintsStore.ensureIndex({
+    fieldName: 'name',
+    unique: true
+});
+
+const StoriesStore = new DB({
+    filename: './_db/stories.db',
+    autoload: true
+});
+
+StoriesStore.ensureIndex({
     fieldName: 'name',
     unique: true
 });
 
 export {
-    ProjectStore
+    ProjectsStore,
+    SprintsStore,
+    StoriesStore
 };

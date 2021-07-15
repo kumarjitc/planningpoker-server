@@ -1,1 +1,2 @@
-export { Projects as Projects } from './projects';
+export { Projects } from './projects';
+export { Sprints } from './sprints';

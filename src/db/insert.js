@@ -1,3 +1,5 @@
+import { DBError } from "./error";
+
 export class Insert {
     constructor(db) {
         this.db = db;
