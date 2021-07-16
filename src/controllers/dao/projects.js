@@ -4,10 +4,10 @@ import {
     Update,
     Select,
     Delete
-} from '../db/index';
+} from '../../db/index';
 import BaseController from './base';
 
-import Validator, { FIELD, LENGTH, REQUIRED } from './validators';
+import { FIELD, LENGTH, REQUIRED } from '../validators';
 
 const FIELD_MAP = [
     { [FIELD]: 'name', [LENGTH]: 15, [REQUIRED]: true },
