@@ -5,9 +5,36 @@ import {
     Select,
     Delete
 } from '../db/index';
+import BaseController from './base';
 
-export class Sprints {
+import Validator, { FIELD, FOREIGN_FIELD, INTEGRETIY, LENGTH, REQUIRED, TABLE } from './validators';
+
+const FIELD_MAP = [
+    { [FIELD]: 'name', [LENGTH]: 15, [REQUIRED]: true },
+    { [FIELD]: 'desc', [LENGTH]: 15, [REQUIRED]: true },
+    {
+        [FIELD]: 'project',
+        [REQUIRED]: true,
+        [INTEGRETIY]: {
+            [FOREIGN_FIELD]: '_id',
+            [TABLE]: 'PROJECTS'
+        }
+    },
+];
+
+export class Sprints extends BaseController {
+    constructor() {
+        super();
+        this.initValidator(FIELD_MAP);
+    }
+
     async create(document) {
+        const validation = this.validator.validate(document);
+
+        if (validation.hasError()) {
+            return Promise.reject(validation);
+        }
+
         return new Insert(SprintsStore).addDocument(document).execute();
     }
 

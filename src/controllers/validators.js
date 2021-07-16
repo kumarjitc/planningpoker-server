@@ -1,6 +1,9 @@
 import { ValidationError } from "./error";
 
 export const FIELD = 'field';
+export const TABLE = 'table';
+export const FOREIGN_FIELD = 'foreign_field';
+
 export const REQUIRED = 'required';
 export const LENGTH = 'length';
 export const INTEGRETIY = 'integrity';

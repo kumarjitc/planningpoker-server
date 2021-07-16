@@ -15,7 +15,6 @@ app.use('/setup/project', Projects);
 app.use('/setup/sprint', Sprints);
 
 app.use((error, _req, res, _next) => {
-    console.log('E', error);
     errorHandler(error, res);
 });
 

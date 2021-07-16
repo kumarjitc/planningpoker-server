@@ -5,27 +5,25 @@ import {
     Select,
     Delete
 } from '../db/index';
+import BaseController from './base';
 
 import Validator, { FIELD, LENGTH, REQUIRED } from './validators';
 
-/* const FIELD_VALIDATION = {
-    [VALIDATOR_REQUIRED]: ['name', 'desc', 'owner']
-}; */
-const FIELD_VALIDATION = [
+const FIELD_MAP = [
     { [FIELD]: 'name', [LENGTH]: 15, [REQUIRED]: true },
-    { [FIELD]: 'desc', [LENGTH]: 15, [REQUIRED]: true },
+    { [FIELD]: 'desc', [LENGTH]: 50, [REQUIRED]: true },
     { [FIELD]: 'owner', [REQUIRED]: true },
 ];
 
-export class Projects {
+export class Projects extends BaseController {
     constructor() {
-        this.validator = new Validator().init(FIELD_VALIDATION);
+        super();
+        this.initValidator(FIELD_MAP);
     }
 
     async create(document) {
         const validation = this.validator.validate(document);
 
-        console.log(validation);
         if (validation.hasError()) {
             return Promise.reject(validation);
         }
