@@ -6,8 +6,30 @@ import {
     Delete
 } from '../db/index';
 
+import { ValidationError } from './error';
+
+const fields = [
+    'name',
+    'desc',
+    'owner'
+];
+
 export class Projects {
+    constructor() {
+        this.validation = new ValidationError();
+    }
+
     async create(document) {
+        fields.forEach(field => {
+            if (!document[field]) {
+                this.validation.forRequiredValidation(field);
+            }
+        });
+
+        if (this.validation.hasError()) {
+            return Promise.reject(this.validation);
+        }
+
         return new Insert(ProjectsStore).addDocument(document).execute();
     }
 

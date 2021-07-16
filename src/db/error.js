@@ -1,3 +1,5 @@
+import { RESPONSE_KEYS } from "../utils";
+
 const RESPONSE_STATUS_CODE = 500;
 
 export class DBError extends Error {
@@ -21,7 +23,11 @@ export class DBError extends Error {
     }
 
     getMessage() {
-        return `${this.operation} Exited With Error - ${this.message}`;
+        const [MESSAGE_KEY] = [...RESPONSE_KEYS];
+
+        return {
+            [MESSAGE_KEY]: `${this.operation} Exited With Error - ${this.message}`
+        };
     }
 
     getErrorCode() {
