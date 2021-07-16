@@ -12,8 +12,14 @@ export default class LookUp {
     async check(table, field, value) {
         switch (table) {
             case TABLE_PROJECTS:
-                let data = await this.#checkProject(field, value);
-                if (data && (data.length || data[field])) {
+                let project = await this.#checkProject(field, value);
+                if (project && (project.length || project[field])) {
+                    return true;
+                }
+                break;
+            case TABLE_SPRINT:
+                let sprint = await this.#checkSprint(field, value);
+                if (sprint && (sprint.length || sprint[field])) {
                     return true;
                 }
                 break;
@@ -24,5 +30,9 @@ export default class LookUp {
 
     async #checkProject(field, value) {
         return await new Select(ProjectsStore).addCondition(field, value).execute();
+    }
+
+    async #checkSprint(field, value) {
+        return await new Select(SprintsStore).addCondition(field, value).execute();
     }
 }

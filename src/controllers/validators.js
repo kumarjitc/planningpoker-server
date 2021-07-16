@@ -58,7 +58,7 @@ export default class Validator {
     }
 
     async #integrityValidation(name, lookup, data) {
-        if (lookup[FOREIGN_FIELD] && lookup[TABLE]) {
+        if (lookup[FOREIGN_FIELD] && lookup[TABLE] && data[name]) {
             try {
                 await new LookUp().check(lookup[TABLE], lookup[FOREIGN_FIELD], data[name]);
             } catch (error) {

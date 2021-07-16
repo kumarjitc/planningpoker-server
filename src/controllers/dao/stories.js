@@ -4,10 +4,46 @@ import {
     Update,
     Select,
     Delete
-} from '../db/index';
+} from '../../db/index';
 
-export class Stories {
+import { FIELD, FOREIGN_FIELD, INTEGRETIY, LENGTH, REQUIRED, TABLE } from '../validators';
+import { TABLE_PROJECTS, TABLE_SPRINTS } from '../lookup/lookup';
+import BaseController from './base';
+
+const FIELD_MAP = [
+    { [FIELD]: 'name', [LENGTH]: 15, [REQUIRED]: true },
+    { [FIELD]: 'desc', [LENGTH]: 15, [REQUIRED]: true },
+    {
+        [FIELD]: 'project',
+        [REQUIRED]: true,
+        [INTEGRETIY]: {
+            [FOREIGN_FIELD]: '_id',
+            [TABLE]: TABLE_PROJECTS
+        }
+    },
+    {
+        [FIELD]: 'sprint',
+        [REQUIRED]: true,
+        [INTEGRETIY]: {
+            [FOREIGN_FIELD]: '_id',
+            [TABLE]: TABLE_SPRINTS
+        }
+    },
+];
+
+export class Stories extends BaseController {
+    constructor() {
+        super();
+        this.initValidator(FIELD_MAP);
+    }
+
     async create(document) {
+        const validation = await this.validator.validate(document);
+
+        if (validation.hasError()) {
+            return Promise.reject(validation);
+        }
+
         return new Insert(StoriesStore).addDocument(document).execute();
     }
 

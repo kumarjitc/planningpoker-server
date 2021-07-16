@@ -1,23 +1,24 @@
 import express from 'express';
-import { Sprints } from '../controllers/index';
+import { Stories } from '../controllers/index';
 
 const routeListener = express.Router();
 
-let sprints = new Sprints();
+let stories = new Stories();
 
 routeListener.get('/', async (req, res, next) => {
     try {
-        res.send(await sprints.getAll());
+        res.send(await stories.getAll());
     } catch (error) {
         next(error);
     }
 });
 
-routeListener.get('/project/:projectid', async (req, res, next) => {
+routeListener.get('/project/:projectid/sprints/:sprintid', async (req, res, next) => {
     const projectid = req.params.projectid;
+    const sprintid = req.params.sprint;
 
     try {
-        res.send(await sprints.getAll());
+        res.send(await stories.getAll());
     } catch (error) {
         next(error);
     }
@@ -27,7 +28,7 @@ routeListener.get('/id/:id', async (req, res, next) => {
     const id = req.params.id;
 
     try {
-        res.send(await sprints.getById(id));
+        res.send(await stories.getById(id));
     } catch (error) {
         next(error);
     }
@@ -35,7 +36,7 @@ routeListener.get('/id/:id', async (req, res, next) => {
 
 routeListener.post('/', async (req, res, next) => {
     try {
-        res.send(await sprints.create(req.body));
+        res.send(await stories.create(req.body));
     } catch (error) {
         next(error);
     }
@@ -45,7 +46,7 @@ routeListener.put('/id/:id', async (req, res, next) => {
     const id = req.params.id;
 
     try {
-        res.send(await sprints.update(req.body, id));
+        res.send(await stories.update(req.body, id));
     } catch (error) {
         next(error);
     }
@@ -55,7 +56,7 @@ routeListener.delete('/id/:id', async (req, res, next) => {
     const id = req.params.id;
 
     try {
-        res.send(await sprints.deleteById(id));
+        res.send(await stories.deleteById(id));
     } catch (error) {
         next(error);
     }
