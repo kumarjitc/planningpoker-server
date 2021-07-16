@@ -6,28 +6,28 @@ import {
     Delete
 } from '../db/index';
 
-import { ValidationError } from './error';
+import Validator, { FIELD, LENGTH, REQUIRED } from './validators';
 
-const fields = [
-    'name',
-    'desc',
-    'owner'
+/* const FIELD_VALIDATION = {
+    [VALIDATOR_REQUIRED]: ['name', 'desc', 'owner']
+}; */
+const FIELD_VALIDATION = [
+    { [FIELD]: 'name', [LENGTH]: 15, [REQUIRED]: true },
+    { [FIELD]: 'desc', [LENGTH]: 15, [REQUIRED]: true },
+    { [FIELD]: 'owner', [REQUIRED]: true },
 ];
 
 export class Projects {
     constructor() {
-        this.validation = new ValidationError();
+        this.validator = new Validator().init(FIELD_VALIDATION);
     }
 
     async create(document) {
-        fields.forEach(field => {
-            if (!document[field]) {
-                this.validation.forRequiredValidation(field);
-            }
-        });
+        const validation = this.validator.validate(document);
 
-        if (this.validation.hasError()) {
-            return Promise.reject(this.validation);
+        console.log(validation);
+        if (validation.hasError()) {
+            return Promise.reject(validation);
         }
 
         return new Insert(ProjectsStore).addDocument(document).execute();

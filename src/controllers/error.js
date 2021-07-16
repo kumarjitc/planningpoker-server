@@ -1,16 +1,26 @@
 import { RESPONSE_KEYS } from '../utils'
 
 const RESPONSE_STATUS_CODE = 500;
+
+const REQUIRED_VALIDATION_KEY = 'required';
+const LENGTH_VALIDATION_KEY = 'length';
+
 const REQUIRED_MESSAGE = 'Cannot Be Blank';
+const LENGTH_MESSAGE = 'Length Cannot Be More Than -';
 
 export class ValidationError extends Error {
-    faliedValidation = new Map();
+    requiredValidation = new Map();
+    lengthValidation = new Map();
     constructor(e) {
         super('Field Validations Failed');
     }
 
     forRequiredValidation(field) {
-        this.faliedValidation.set(field, REQUIRED_MESSAGE);
+        this.requiredValidation.set(field, REQUIRED_MESSAGE);
+    }
+
+    forLengthValidation(field, length) {
+        this.lengthValidation.set(field, `${LENGTH_MESSAGE} ${length}`);
     }
 
     with(message) {
@@ -20,7 +30,8 @@ export class ValidationError extends Error {
     }
 
     hasError() {
-        return this.faliedValidation.size > 0;
+        return this.requiredValidation.size > 0
+            || this.lengthValidation.size > 0;
     }
 
     getMessage() {
@@ -28,7 +39,10 @@ export class ValidationError extends Error {
 
         return {
             [MESSAGE_KEY]: this.message,
-            validations: Object.fromEntries(this.faliedValidation)
+            validations: {
+                ...(this.requiredValidation.size && { [REQUIRED_VALIDATION_KEY]: { ...Object.fromEntries(this.requiredValidation) } }),
+                ...(this.lengthValidation.size && { [LENGTH_VALIDATION_KEY]: { ...Object.fromEntries(this.lengthValidation) } })
+            }
         };
     }
 
