@@ -22,7 +22,7 @@ export class Projects extends BaseController {
     }
 
     async create(document) {
-        const validation = this.validator.validate(document);
+        const validation = await this.validator.validate(document);
 
         if (validation.hasError()) {
             return Promise.reject(validation);

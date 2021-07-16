@@ -4,14 +4,18 @@ const RESPONSE_STATUS_CODE = 500;
 
 const REQUIRED_VALIDATION_KEY = 'required';
 const LENGTH_VALIDATION_KEY = 'length';
+const INTEGRITY_VALIDATION_KEY = 'integrity';
 
 const REQUIRED_MESSAGE = 'Cannot Be Blank';
 const LENGTH_MESSAGE = 'Length Cannot Be More Than -';
+const INTEGRITY_MESSAGE = 'Cannot Find Matching Values - ';
 
 export class ValidationError extends Error {
     requiredValidation = new Map();
     lengthValidation = new Map();
-    constructor(e) {
+    integrityValidation = new Map();
+
+    constructor() {
         super('Field Validations Failed');
     }
 
@@ -23,6 +27,10 @@ export class ValidationError extends Error {
         this.lengthValidation.set(field, `${LENGTH_MESSAGE} ${length}`);
     }
 
+    forIntegrityValidation(field, value) {
+        this.integrityValidation.set(field, `${INTEGRITY_MESSAGE} ${value} For ${field}`);
+    }
+
     with(message) {
         this.message = message;
 
@@ -31,7 +39,8 @@ export class ValidationError extends Error {
 
     hasError() {
         return this.requiredValidation.size > 0
-            || this.lengthValidation.size > 0;
+            || this.lengthValidation.size > 0
+            || this.integrityValidation.size > 0;
     }
 
     getMessage() {
@@ -41,7 +50,8 @@ export class ValidationError extends Error {
             [MESSAGE_KEY]: this.message,
             validations: {
                 ...(this.requiredValidation.size && { [REQUIRED_VALIDATION_KEY]: { ...Object.fromEntries(this.requiredValidation) } }),
-                ...(this.lengthValidation.size && { [LENGTH_VALIDATION_KEY]: { ...Object.fromEntries(this.lengthValidation) } })
+                ...(this.lengthValidation.size && { [LENGTH_VALIDATION_KEY]: { ...Object.fromEntries(this.lengthValidation) } }),
+                ...(this.integrityValidation.size && { [INTEGRITY_VALIDATION_KEY]: { ...Object.fromEntries(this.integrityValidation) } })
             }
         };
     }

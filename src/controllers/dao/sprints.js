@@ -8,6 +8,7 @@ import {
 import BaseController from './base';
 
 import { FIELD, FOREIGN_FIELD, INTEGRETIY, LENGTH, REQUIRED, TABLE } from '../validators';
+import { TABLE_PROJECTS } from '../lookup/lookup';
 
 const FIELD_MAP = [
     { [FIELD]: 'name', [LENGTH]: 15, [REQUIRED]: true },
@@ -17,7 +18,7 @@ const FIELD_MAP = [
         [REQUIRED]: true,
         [INTEGRETIY]: {
             [FOREIGN_FIELD]: '_id',
-            [TABLE]: 'PROJECTS'
+            [TABLE]: TABLE_PROJECTS
         }
     },
 ];
@@ -29,7 +30,7 @@ export class Sprints extends BaseController {
     }
 
     async create(document) {
-        const validation = this.validator.validate(document);
+        const validation = await this.validator.validate(document);
 
         if (validation.hasError()) {
             return Promise.reject(validation);

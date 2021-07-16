@@ -1,4 +1,5 @@
 import { ValidationError } from "./error";
+import LookUp from "./lookup/lookup";
 
 export const FIELD = 'field';
 export const TABLE = 'table';
@@ -22,22 +23,25 @@ export default class Validator {
         return this;
     }
 
-    validate(data) {
+    async validate(data) {
         this.#validation = new ValidationError();
 
         for (let field of this.#fields) {
-            this.#validateField(field, data);
+            await this.#validateField(field, data);
         }
 
         return this.#validation;
     }
 
-    #validateField(field, data) {
+    async #validateField(field, data) {
         if (field[REQUIRED]) {
             this.#requiredValidation(field[FIELD], data);
         }
         if (field[LENGTH]) {
             this.#lengthValidation(field[FIELD], field[LENGTH], data);
+        }
+        if (field[INTEGRETIY]) {
+            await this.#integrityValidation(field[FIELD], field[INTEGRETIY], data);
         }
     }
 
@@ -50,6 +54,16 @@ export default class Validator {
     #lengthValidation(name, length, data) {
         if (data[name] && data[name].length > length) {
             this.#validation.forLengthValidation(name, length);
+        }
+    }
+
+    async #integrityValidation(name, lookup, data) {
+        if (lookup[FOREIGN_FIELD] && lookup[TABLE]) {
+            try {
+                await new LookUp().check(lookup[TABLE], lookup[FOREIGN_FIELD], data[name]);
+            } catch (error) {
+                this.#validation.forIntegrityValidation(name, data[name]);
+            }
         }
     }
 }
