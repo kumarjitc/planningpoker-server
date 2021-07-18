@@ -8,6 +8,9 @@ export const FOREIGN_FIELD = 'foreign_field';
 export const REQUIRED = 'required';
 export const LENGTH = 'length';
 export const INTEGRETIY = 'integrity';
+export const PATTERN = 'pattern';
+
+export const DATE_FORMAT = '([12]\\d{3}\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\\d|3[01]))';
 
 export default class Validator {
     #fields;
@@ -43,6 +46,9 @@ export default class Validator {
         if (field[INTEGRETIY]) {
             await this.#integrityValidation(field[FIELD], field[INTEGRETIY], data);
         }
+        if (field[PATTERN]) {
+            this.#patternValidation(field[FIELD], field[PATTERN], data);
+        }
     }
 
     #requiredValidation(name, data) {
@@ -64,6 +70,13 @@ export default class Validator {
             } catch (error) {
                 this.#validation.forIntegrityValidation(name, data[name]);
             }
+        }
+    }
+
+    #patternValidation(name, pattern, data) {
+        let matcher = new RegExp(pattern, 'i');
+        if (data[name] && !(data[name]).match(matcher)) {
+            this.#validation.forPatternValidation(name);
         }
     }
 }
