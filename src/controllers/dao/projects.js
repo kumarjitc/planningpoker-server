@@ -1,9 +1,5 @@
 import {
-    ProjectsStore,
-    Insert,
-    Update,
-    Select,
-    Delete
+    ProjectsStore
 } from '../../db/index';
 import BaseController from './base';
 
@@ -17,33 +13,7 @@ const FIELD_MAP = [
 
 export class Projects extends BaseController {
     constructor() {
-        super();
+        super(ProjectsStore);
         this.initValidator(FIELD_MAP);
-    }
-
-    async create(document) {
-        const validation = await this.validator.validate(document);
-
-        if (validation.hasError()) {
-            return Promise.reject(validation);
-        }
-
-        return new Insert(ProjectsStore).addDocument(document).execute();
-    }
-
-    async getById(id) {
-        return new Select(ProjectsStore).searchById(id).execute();
-    }
-
-    async getAll() {
-        return new Select(ProjectsStore).execute();
-    }
-
-    async update(document, id) {
-        return new Update(ProjectsStore).updateById(id).addDocument(document).execute();
-    }
-
-    async deleteById(id) {
-        return new Delete(ProjectsStore).deleteById(id).execute();
     }
 }

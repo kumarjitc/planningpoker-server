@@ -1,9 +1,6 @@
 import {
     StoriesStore,
-    Insert,
-    Update,
-    Select,
-    Delete
+    Select
 } from '../../db/index';
 
 import { FIELD, FOREIGN_FIELD, INTEGRETIY, LENGTH, REQUIRED, TABLE } from '../validators';
@@ -33,33 +30,7 @@ const FIELD_MAP = [
 
 export class Stories extends BaseController {
     constructor() {
-        super();
+        super(StoriesStore);
         this.initValidator(FIELD_MAP);
-    }
-
-    async create(document) {
-        const validation = await this.validator.validate(document);
-
-        if (validation.hasError()) {
-            return Promise.reject(validation);
-        }
-
-        return new Insert(StoriesStore).addDocument(document).execute();
-    }
-
-    async getById(id) {
-        return new Select(StoriesStore).searchById(id).execute();
-    }
-
-    async getAll() {
-        return new Select(StoriesStore).execute();
-    }
-
-    async update(document, id) {
-        return new Update(StoriesStore).updateById(id).addDocument(document).execute();
-    }
-
-    async deleteById(id) {
-        return new Delete(StoriesStore).deleteById(id).execute();
     }
 }

@@ -1,9 +1,6 @@
 import {
     SprintsStore,
-    Insert,
-    Update,
-    Select,
-    Delete
+    Select
 } from '../../db/index';
 import BaseController from './base';
 
@@ -25,37 +22,11 @@ const FIELD_MAP = [
 
 export class Sprints extends BaseController {
     constructor() {
-        super();
+        super(SprintsStore);
         this.initValidator(FIELD_MAP);
-    }
-
-    async create(document) {
-        const validation = await this.validator.validate(document);
-
-        if (validation.hasError()) {
-            return Promise.reject(validation);
-        }
-
-        return new Insert(SprintsStore).addDocument(document).execute();
-    }
-
-    async getById(id) {
-        return new Select(SprintsStore).searchById(id).execute();
     }
 
     async getByProject(projectid) {
         return new Select(SprintsStore).addCondition('projectid', projectid).execute();
-    }
-
-    async getAll() {
-        return new Select(SprintsStore).execute();
-    }
-
-    async update(document, id) {
-        return new Update(SprintsStore).updateById(id).addDocument(document).execute();
-    }
-
-    async deleteById(id) {
-        return new Delete(SprintsStore).deleteById(id).execute();
     }
 }

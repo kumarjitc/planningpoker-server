@@ -17,8 +17,9 @@ export default class LookUp {
                     return true;
                 }
                 break;
-            case TABLE_SPRINT:
+            case TABLE_SPRINTS:
                 let sprint = await this.#checkSprint(field, value);
+                console.log(sprint);
                 if (sprint && (sprint.length || sprint[field])) {
                     return true;
                 }
