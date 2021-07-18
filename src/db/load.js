@@ -30,8 +30,19 @@ StoriesStore.ensureIndex({
     unique: true
 });
 
+const BoardsStore = new DB({
+    filename: './_db/boards.db',
+    autoload: true
+});
+
+BoardsStore.ensureIndex({
+    fieldName: 'session_id',
+    unique: true
+});
+
 export {
     ProjectsStore,
     SprintsStore,
-    StoriesStore
+    StoriesStore,
+    BoardsStore
 };

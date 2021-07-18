@@ -5,15 +5,18 @@ const RESPONSE_STATUS_CODE = 500;
 const REQUIRED_VALIDATION_KEY = 'required';
 const LENGTH_VALIDATION_KEY = 'length';
 const INTEGRITY_VALIDATION_KEY = 'integrity';
+const PATTERN_VALIDATION_KEY = 'pattern';
 
 const REQUIRED_MESSAGE = 'Cannot Be Blank';
 const LENGTH_MESSAGE = 'Length Cannot Be More Than -';
 const INTEGRITY_MESSAGE = 'Cannot Find Matching Values - ';
+const PATTERN_MESSAGE = 'Not A Valid Format - ';
 
 export class ValidationError extends Error {
     requiredValidation = new Map();
     lengthValidation = new Map();
     integrityValidation = new Map();
+    patternValidation = new Map();
 
     constructor() {
         super('Field Validations Failed');
@@ -31,6 +34,10 @@ export class ValidationError extends Error {
         this.integrityValidation.set(field, `${INTEGRITY_MESSAGE} ${value} For ${field}`);
     }
 
+    forPatternValidation(field) {
+        this.patternValidation.set(field, `${PATTERN_MESSAGE} ${field}`);
+    }
+
     with(message) {
         this.message = message;
 
@@ -40,7 +47,8 @@ export class ValidationError extends Error {
     hasError() {
         return this.requiredValidation.size > 0
             || this.lengthValidation.size > 0
-            || this.integrityValidation.size > 0;
+            || this.integrityValidation.size > 0
+            || this.patternValidation.size > 0;
     }
 
     getMessage() {
@@ -51,7 +59,8 @@ export class ValidationError extends Error {
             validations: {
                 ...(this.requiredValidation.size && { [REQUIRED_VALIDATION_KEY]: { ...Object.fromEntries(this.requiredValidation) } }),
                 ...(this.lengthValidation.size && { [LENGTH_VALIDATION_KEY]: { ...Object.fromEntries(this.lengthValidation) } }),
-                ...(this.integrityValidation.size && { [INTEGRITY_VALIDATION_KEY]: { ...Object.fromEntries(this.integrityValidation) } })
+                ...(this.integrityValidation.size && { [INTEGRITY_VALIDATION_KEY]: { ...Object.fromEntries(this.integrityValidation) } }),
+                ...(this.patternValidation.size && { [PATTERN_VALIDATION_KEY]: { ...Object.fromEntries(this.patternValidation) } })
             }
         };
     }
