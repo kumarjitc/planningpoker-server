@@ -1,5 +1,5 @@
-import { ID } from "./constants";
-import { DBError } from "./error";
+import { ID } from './constants';
+import { DBError } from './error';
 
 export class Update {
     constructor(db) {

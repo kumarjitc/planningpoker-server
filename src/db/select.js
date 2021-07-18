@@ -1,5 +1,5 @@
-import { ID } from "./constants";
-import { DBError } from "./error";
+import { ID } from './constants';
+import { DBError } from './error';
 
 export class Select {
     constructor(db) {
@@ -25,10 +25,6 @@ export class Select {
             this.db.find(this.condition, (error, docs) => {
                 if (error) {
                     reject(this.error.with(error));
-                }
-
-                if (!docs.length) {
-                    reject(this.error.with(`${DBError.RECORD_NOT_FOUND} - ${this.condition[ID]}`));
                 }
 
                 resolve(this.condition.hasOwnProperty(ID) ? docs[0] : docs);

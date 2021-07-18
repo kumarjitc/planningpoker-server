@@ -1,5 +1,5 @@
-import { ValidationError } from "./error";
-import LookUp from "./lookup/lookup";
+import { ValidationError } from './error';
+import LookUp from './lookup/lookup';
 
 export const FIELD = 'field';
 export const TABLE = 'table';

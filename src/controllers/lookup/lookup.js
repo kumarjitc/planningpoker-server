@@ -2,6 +2,7 @@ import {
     ProjectsStore,
     SprintsStore,
     Select,
+    GamesStore,
 } from '../../db/index';
 
 export const TABLE_PROJECTS = 'Project';
@@ -34,5 +35,9 @@ export default class LookUp {
 
     async #checkSprint(field, value) {
         return await new Select(SprintsStore).addCondition(field, value).execute();
+    }
+
+    async isStoryInGame(board, story) {
+        return await new Select(GamesStore).addCondition('board', board).addCondition('story', story).execute();
     }
 }

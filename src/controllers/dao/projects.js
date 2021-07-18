@@ -1,6 +1,6 @@
 import {
     ProjectsStore
-} from '../../db/index';
+} from '../../db';
 import BaseController from './base';
 
 import { FIELD, LENGTH, REQUIRED } from '../validators';

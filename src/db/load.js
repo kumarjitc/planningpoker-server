@@ -40,9 +40,15 @@ BoardsStore.ensureIndex({
     unique: true
 });
 
+const GamesStore = new DB({
+    filename: './_db/games.db',
+    autoload: true
+});
+
 export {
     ProjectsStore,
     SprintsStore,
     StoriesStore,
-    BoardsStore
+    BoardsStore,
+    GamesStore
 };

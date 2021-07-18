@@ -4,7 +4,7 @@ import {
     Select,
     Delete
 } from '../../db/index';
-import Validator from "../validators";
+import Validator from '../validators';
 
 export default class BaseController {
     constructor(dbStore) {

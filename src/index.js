@@ -1,7 +1,7 @@
 import Express from 'express';
 import cors from 'cors';
 
-import { Board, Projects, Sprints, Stories } from './routes';
+import { Board, Game, Projects, Sprints, Stories } from './routes';
 import { errorHandler } from './routes/error';
 
 const app = Express();
@@ -15,6 +15,7 @@ app.use('/setup/project', Projects);
 app.use('/setup/sprint', Sprints);
 app.use('/setup/story', Stories);
 app.use('/setup/board', Board);
+app.use('/game', Game);
 
 app.use((error, _req, res, _next) => {
     errorHandler(error, res);

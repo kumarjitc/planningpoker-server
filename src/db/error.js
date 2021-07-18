@@ -1,4 +1,4 @@
-import { RESPONSE_KEYS } from "../utils";
+import { RESPONSE_KEYS } from '../utils';
 
 const RESPONSE_STATUS_CODE = 500;
 

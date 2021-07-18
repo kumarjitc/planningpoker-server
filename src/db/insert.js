@@ -1,4 +1,4 @@
-import { DBError } from "./error";
+import { DBError } from './error';
 
 export class Insert {
     constructor(db) {
