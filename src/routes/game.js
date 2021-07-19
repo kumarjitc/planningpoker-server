@@ -28,7 +28,7 @@ routeListener.get('/deals', async (req, res, next) => {
     }
 });
 
-routeListener.patch('/showdown/hand/:handid', async (req, res, next) => {
+routeListener.patch('/close/hand/:handid', async (req, res, next) => {
     let handid = req.params.handid;
     try {
         res.send(await game.showdown(handid, req.body));
