@@ -35,7 +35,7 @@ export class Update {
 
     async execute() {
         return new Promise((resolve, reject) => {
-            this.db.update(this.condition, this.doc, { multi: true }, (error, numReplaced) => {
+            this.db.update(this.condition, { $set: { ...this.condition, ...this.doc } }, { multi: true }, (error, numReplaced) => {
                 if (error) {
                     reject(this.error.with(error));
                 }

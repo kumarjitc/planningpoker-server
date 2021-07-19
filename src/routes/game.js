@@ -20,4 +20,21 @@ routeListener.post('/start', async (req, res, next) => {
     }
 });
 
+routeListener.get('/deals', async (req, res, next) => {
+    try {
+        res.send(await game.deals());
+    } catch (error) {
+        next(error);
+    }
+});
+
+routeListener.patch('/showdown/hand/:handid', async (req, res, next) => {
+    let handid = req.params.handid;
+    try {
+        res.send(await game.showdown(handid, req.body));
+    } catch (error) {
+        next(error);
+    }
+});
+
 export default routeListener;

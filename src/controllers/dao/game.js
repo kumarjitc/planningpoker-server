@@ -1,4 +1,4 @@
-import { GamesStore, Insert } from "../../db";
+import { GamesStore, Insert, Select, Update } from "../../db";
 import { ValidationError } from "../error";
 import LookUp from "../lookup/lookup";
 import { Boards } from "./boards";
@@ -30,5 +30,13 @@ export class Game {
         } catch (error) {
             return Promise.reject(error);
         }
+    }
+
+    async deals() {
+        return new Select(GamesStore).execute();
+    }
+
+    async showdown(id, document) {
+        return await new Update(GamesStore).updateById(id).addDocument(document).execute();
     }
 }
