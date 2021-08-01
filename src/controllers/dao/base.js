@@ -31,6 +31,12 @@ export default class BaseController {
     }
 
     async update(document, id) {
+        const validation = await this.validator.validate(document);
+
+        if (validation.hasError()) {
+            return Promise.reject(validation);
+        }
+
         return new Update(this.dbStore).updateById(id).addDocument(document).execute();
     }
 
