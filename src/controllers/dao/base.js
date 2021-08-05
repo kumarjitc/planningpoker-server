@@ -4,6 +4,7 @@ import {
     Select,
     Delete
 } from '../../db/index';
+import { OperationSuccess } from '../success';
 import Validator from '../validators';
 
 export default class BaseController {
@@ -37,11 +38,15 @@ export default class BaseController {
             return Promise.reject(validation);
         }
 
-        return new Update(this.dbStore).updateById(id).addDocument(document).execute();
+        return new OperationSuccess()
+            .with(await new Update(this.dbStore).updateById(id).addDocument(document).execute())
+            .getMessage();
     }
 
     async deleteById(id) {
-        return new Delete(this.dbStore).deleteById(id).execute();
+        return new OperationSuccess()
+            .with(await new Delete(this.dbStore).deleteById(id).execute())
+            .getMessage();
     }
 
     initValidator(fieldMapping) {
